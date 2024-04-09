@@ -3,6 +3,8 @@ import argparse
 import cv2
 import numpy as np
 import onnxruntime as ort
+# 최영준
+import time
 
 from depth_anything.util.transform import load_image
 
@@ -33,8 +35,11 @@ def infer(img: str, model: str, viz: bool = False):
     session = ort.InferenceSession(
         model, providers=["CUDAExecutionProvider", "CPUExecutionProvider"]
     )
+    infer_start = time.time()
     depth = session.run(None, {"image": image})[0]
-
+    infer_end = time.time()
+    print ("Inference Latency is : ", infer_end - infer_start ,"ms")
+    print( ort.get_device()  )
     depth = cv2.resize(depth[0, 0], (orig_w, orig_h))
     depth = (depth - depth.min()) / (depth.max() - depth.min()) * 255.0
     depth = depth.astype(np.uint8)

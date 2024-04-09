@@ -263,8 +263,9 @@ transform = Compose(
     ]
 )
 
-
-def load_image(filepath) -> tuple[np.ndarray, tuple[int, int]]:
+# 수정 : 문법에러
+# def load_image(filepath) -> tuple[np.ndarray, tuple[int, int]]:
+def load_image(filepath):
     image = cv2.imread(filepath)  # H, W, C
     orig_shape = image.shape[:2]
     image = cv2.cvtColor(image, cv2.COLOR_BGR2RGB) / 255.0
